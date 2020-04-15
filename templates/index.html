@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View All Rates</title>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+<body>
+    <form action="{{ url_for('search') }}">
+        <h4>Change to:</h4>
+        <label for="base_currency">Base Currency</label>
+        <input name="base_curreny" id="base_currency" placeholder="eg USD" maxlength="3"/><br />
+        <label for="quote_currency">Quote Currency</label>
+        <input name="quote_currency" id="quote_currency" placeholder="eg GBP" maxlength="3"/><br />
+        <label for="amount">Base Currency Amount</label>
+        <input name="amount" id="amount" placeholder="1000" /><br />
+        <input type="submit" value="change" id="submit">
+    </form>
+
+    {% for element in content %}
+        <p>element</p>
+    {% endfor %}
+</body>
+</html>
