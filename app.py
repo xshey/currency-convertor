@@ -1,5 +1,5 @@
 from currency import Currency
-from flask import Flask, render_template,request
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 currency = Currency()
@@ -9,6 +9,7 @@ currency.get_exchange_values()
 @app.route('/')
 def index():
     return render_template('index.html', content=currency.get_rates())
+
 
 @app.route('/search')
 def search():
@@ -23,5 +24,6 @@ def search():
         return render_template('search.html', content="")
     respond = [amount, base_currency, exchange_amount, quote_currency]
     return render_template('search.html', content=respond)
+
 
 app.run(port=1123)

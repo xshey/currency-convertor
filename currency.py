@@ -11,22 +11,23 @@ class Currency:
         r = get(
             f'{constants.CONSTANTS_LATEST_URL}?app_id={constants.CONSTANTS_API_KEY}&symbol={self.base_currency}')
         if r.status_code == 200:
-            self.__exchange_values = r.json()
+            json_data = r.json()
+            self.__exchange_values = json_data['rates']
 
     def change_from_usd(self, quote_currency, usd_quantity):
         quote_currency_val = self.currency_value(quote_currency)
-        return usd_quantity * quote_currency_val
+        return round(float(usd_quantity) * float(quote_currency_val), 2)
 
     def change_between_currencies(self, base_currency, quote_currency, base_currency_quantity):
         quote_currency_val = self.currency_value(quote_currency)
         base_currency_val = self.currency_value(base_currency)
-        exchange_rate = base_currency_val / quote_currency_val
-        return base_currency_quantity * exchange_rate
+        exchange_rate = quote_currency_val/ base_currency_val
+        return round(float(base_currency_quantity) * exchange_rate, 2)
 
     def change_to_all_currencies(self, base_currency, base_currency_quantity):
         base_currency_val = self.currency_value(base_currency)
         exchanged_values = dict()
-        for key, val in self.__exchange_values['rate']:
+        for key, val in self.__exchange_values:
             exchange_rate = base_currency_val / val
             exchanged_values[key] = exchange_rate * base_currency_quantity
         return exchanged_values
@@ -36,7 +37,7 @@ class Currency:
 
     def currency_value(self, currency):
         if currency in self.__exchange_values.keys():
-            return self.__exchange_values['rate'][currency]
+            return self.__exchange_values[currency]
 
     def __repr__(self):
         return f"<The base currence is {self.base_currency}"
